@@ -32,7 +32,7 @@ def check_win(board,row,column):
     win = True
     start = column
     end = column
-    for i in range(column-1,column-4,-1):
+    for i in range(column-1,column-9,-1):
         if i >= 0:
             test1 = board[row][i]
             if board[row][i] != player:
@@ -41,8 +41,8 @@ def check_win(board,row,column):
         else:
             start = 0
             break
-    for i in range(column+1,column+4):
-        if i <= 7:
+    for i in range(column+1,column+9):
+        if i <= 6:
             test2 = board[row][i]
             if board[row][i] != player:
                 end = i-1
@@ -53,17 +53,69 @@ def check_win(board,row,column):
     if end-start >=3:
         print('left right win')
         return True
-    #diagonal  win
+    #diagonal up right win
     startRow = row
     startColumn = column
     endRow = row
     endColumn = column
-    for i in range(-1,-4,-1):
+    for i in range(-1,-9,-1):
         if (startRow + i) >= 0 and (startColumn + i) >= 0:
             if board[startRow+i][startColumn+i] != player:
                 startRow = startRow+i+1
                 startColumn = startColumn+i+1
                 break
+        else:
+            startRow = startRow+i+1
+            startColumn = startColumn+i+1
+            break
+    for i in range(1,9,1):
+        if (endRow + i) <= 5 and (endColumn + i) <= 6:
+            if board[endRow+i][endColumn+i] != player:
+                endRow = endRow+i-1
+                endColumn = endColumn+i-1
+                break
+        else:
+            endRow = endRow+i-1
+            endColumn = endColumn+i-1
+            break
+    if endRow - startRow >= 3:
+        print('diagonal up right win')
+        return True
+    #diagonal up left win
+    startRow = row
+    startColumn = column
+    endRow = row
+    endColumn = column
+    for i in range(-1,-9,-1):
+        if (startRow - i) <= 5 and (startColumn + i) >= 0:
+            test1 = startRow-i
+            test2 = startColumn+i
+            test3 = board[startRow-i][startColumn+i]
+            if board[startRow-i][startColumn+i] != player:
+                startRow = startRow-i-1
+                startColumn = startColumn+i+1
+                break
+        else:
+            startRow = startRow-i-1
+            startColumn = startColumn+i+1
+            break
+    for i in range(1,9,1):
+        if (endRow - i) >= 0 and (endColumn + i) <= 6:
+            test1 = startRow-i
+            test2 = startColumn+i
+            test3 = board[startRow-i][startColumn+i]
+            if board[endRow-i][endColumn+i] != player:
+                endRow = endRow-i+1
+                endColumn = endColumn+i-1
+                break
+        else:
+            endRow = endRow-i+1
+            endColumn = endColumn+i-1
+            break
+    if startRow - endRow >= 3:
+        print('diagonal up left win')
+        return True
+     
     return False
 
             
@@ -75,7 +127,7 @@ def main():
     while win == False:
         running = True
         while running:
-            column = int(input('Column 0-6:'))
+            column = int(input('Column 0-6: '))
             row = turn(column,board,player)
             if row != None:
                 running = False

@@ -1,4 +1,5 @@
 import random
+import turtle
 
 def turn(column,board,player):
     if column < 0 or column > 6 or board[5][column] != None:
@@ -118,10 +119,24 @@ def check_win(board,row,column):
      
     return False
 
+def circle(x,y,size,color):
+    turtle.penup()
+    turtle.seth(0)
+    turtle.goto(x,y-size)
+    turtle.pendown()
+    turtle.fillcolor(color)
+    turtle.begin_fill()
+    turtle.circle(size)
+    turtle.penup()
+
+def draw_board():
+    turtle.penup()
+    circle(0,0,100,'black')
             
 def main():
     board = [[None for _ in range(7)] for _ in range(6)]
     print_board(board)
+    draw_board()
     player = '\033[34mBlue\033[37m'
     win = False
     while win == False:
@@ -137,4 +152,5 @@ def main():
                 print('Invalid Move')
         player = (player=='\033[34mBlue\033[37m') * '\033[31mRed \033[37m' + (player=='\033[31mRed \033[37m') * '\033[34mBlue\033[37m'
         print_board(board)
+        
 main()
